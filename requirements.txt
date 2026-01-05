@@ -1,8 +1,4 @@
-Streamlit ==1.51.0
-Pandas ==2.3.1
-Pytest ==9.0.2
-FastAPI ==0.124.0
-Pydantic ==2.12.5
-Uvicorn ==0.38.0
-Request ==2.32.4
+streamlit ==1.51.0
+pandas ==2.3.1
+requests ==2.32.4
 mysql-connector-python ==9.5.0
