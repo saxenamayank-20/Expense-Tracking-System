@@ -64,3 +64,12 @@
 2026-01-05 12:19:25,343 - database_helper - INFO - insert_expense called with date: 2025-11-11, amount: 100.0, category: Shopping, notes: Bought Jeans
 2026-01-05 12:19:25,373 - database_helper - INFO - insert_expense called with date: 2025-11-11, amount: 500.0, category: Entertainment, notes: Watched Dhurandar
 2026-01-05 12:19:25,383 - database_helper - INFO - insert_expense called with date: 2025-11-11, amount: 1000.0, category: Rent, notes: House Rent
+2026-01-05 15:51:40,955 - database_helper - INFO - fetch_expenses_for_date called with 2025-11-11
+2026-01-05 15:51:52,281 - database_helper - INFO - fetch_expenses_for_date called with 2025-11-12
+2026-01-05 15:51:59,972 - database_helper - INFO - fetch_expenses_for_date called with 2025-11-13
+2026-01-05 15:52:38,312 - database_helper - INFO - fetch_expenses_for_date called with 2026-10-22
+2026-01-05 15:52:42,566 - database_helper - INFO - fetch_expenses_for_date called with 2026-10-22
+2026-01-05 15:52:44,684 - database_helper - INFO - delete_expenses_for_date called with 2026-10-22
+2026-01-05 15:52:44,712 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 100.0, category: Shopping, notes: Bought Jeans
+2026-01-05 15:52:44,760 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 500.0, category: Entertainment, notes: Watched Dhurandar
+2026-01-05 15:52:44,783 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 1000.0, category: Rent, notes: House Rent
