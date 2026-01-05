@@ -6,7 +6,7 @@ API_URL = "http://localhost:8000"
 
 
 def add_update_tab():
-    selected_date = st.date_input("Enter Date", datetime(2025, 11, 11), label_visibility="collapsed")
+    selected_date = st.date_input("Enter Date", datetime(2025, 1, 1), label_visibility="collapsed")
     response = requests.get(f"{API_URL}/expenses/{selected_date}")
     if response.status_code == 200:
         existing_expenses = response.json()
