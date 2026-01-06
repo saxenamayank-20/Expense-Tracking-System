@@ -4,5 +4,5 @@ requests ==2.32.4
 mysql-connector-python ==9.5.0
 uvicorn ==0.38.0
 pydantic ==2.12.5
-pytest ==9.0.2
 fastAPI ==0.120.0
+gunicorn == 21.2.0
