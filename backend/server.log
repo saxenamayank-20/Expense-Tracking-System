@@ -73,3 +73,18 @@
 2026-01-05 15:52:44,712 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 100.0, category: Shopping, notes: Bought Jeans
 2026-01-05 15:52:44,760 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 500.0, category: Entertainment, notes: Watched Dhurandar
 2026-01-05 15:52:44,783 - database_helper - INFO - insert_expense called with date: 2026-10-22, amount: 1000.0, category: Rent, notes: House Rent
+2026-01-05 16:48:56,742 - database_helper - INFO - fetch_expenses_for_date called with 2025-01-01
+2026-01-05 16:48:58,295 - database_helper - INFO - fetch_expenses_for_date called with 2025-01-01
+2026-01-05 16:50:50,541 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:51:49,357 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:51:51,465 - database_helper - INFO - delete_expenses_for_date called with 2026-01-06
+2026-01-05 16:51:51,490 - database_helper - INFO - insert_expense called with date: 2026-01-06, amount: 200.0, category: Shopping, notes: Bought Dresses
+2026-01-05 16:51:51,527 - database_helper - INFO - insert_expense called with date: 2026-01-06, amount: 100.0, category: Food, notes: Samosa Tikii Chaat
+2026-01-05 16:52:40,400 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:52:45,472 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:52:57,900 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:53:00,043 - database_helper - INFO - fetch_expense_summary called with start: 2025-09-16 end: 2024-08-06
+2026-01-05 16:53:35,127 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:53:39,353 - database_helper - INFO - fetch_expenses_for_date called with 2026-01-06
+2026-01-05 16:53:41,464 - database_helper - INFO - fetch_expense_summary called with start: 2025-09-16 end: 2026-01-06
+2026-01-05 20:49:37,198 - database_helper - INFO - fetch_expenses_for_date called with 2025-01-01

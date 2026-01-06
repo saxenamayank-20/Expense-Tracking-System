@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 import requests
 import pandas as pd
-
+import os
 
 
 API_URL = "http://localhost:8000"
