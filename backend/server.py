@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from datetime import date
-from backend import database_helper
+import database_helper
 from typing import List
 from pydantic import BaseModel
 
