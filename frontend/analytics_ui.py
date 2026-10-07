@@ -9,7 +9,7 @@ load_dotenv()
 
 
 # Override with an API_URL secret on Streamlit Cloud.
-API_URL = os.getenv("API_URL", "https://expense-tracking-system-wx6y.onrender.com")
+API_URL = os.getenv("API_URL", "https://expense-tracking-system-gj39.onrender.com")
 # Render free tier can take ~60s to wake up from sleep.
 TIMEOUT = 90
 

@@ -84,7 +84,7 @@ Expense_Tracking_System/
 
 4. **Set up PostgreSQL database**:
    - Create a free project on [Neon](https://neon.tech) and run [backend/schema.sql](backend/schema.sql) in its SQL Editor
-   - `cp .env.example .env` and set `DATABASE_URL` to the Neon connection string
+   - Create a `.env` file with `DATABASE_URL=<Neon connection string>`
 
 5. **Start the FastAPI backend**:
    ```bash
