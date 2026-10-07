@@ -9,7 +9,7 @@ A modern, user-friendly expense tracking application built with **FastAPI** for 
 - **Python** 3.12
 - **Streamlit** 1.45 + **pandas** - frontend UI and charts (deployed on Streamlit Community Cloud)
 - **FastAPI** 0.115 + **Pydantic** 2 + **Uvicorn/Gunicorn** - REST API backend (deployed on Render)
-- **MySQL** via `mysql-connector-python` - data storage
+- **PostgreSQL on Neon** via `psycopg2` - data storage
 - **Requests** - frontend-to-backend HTTP calls
 - **pytest** - tests
 
@@ -19,7 +19,7 @@ A modern, user-friendly expense tracking application built with **FastAPI** for 
 - 📈 **Analytics Dashboard**: Visualize spending patterns with interactive charts
 - 🗂️ **Category-based Tracking**: Organize expenses by categories
 - 📅 **Date Range Filtering**: Analyze expenses over specific time periods
-- 💾 **MySQL Database**: Robust data storage with persistent records
+- 💾 **PostgreSQL Database**: Robust data storage with persistent records
 - 🚀 **FastAPI Backend**: High-performance REST API
 - 🎨 **Streamlit Frontend**: Beautiful, responsive web interface
 
@@ -27,7 +27,7 @@ A modern, user-friendly expense tracking application built with **FastAPI** for 
 
 *Key learnings from this project:*
 - Building robust REST APIs with FastAPI
-- Database design and optimization with MySQL
+- Database design and optimization with PostgreSQL
 - Frontend development with Streamlit
 - User authentication and security best practices
 - Data visualization techniques
@@ -60,7 +60,7 @@ Expense_Tracking_System/
 ### Prerequisites
 
 - Python 3.8 or higher
-- MySQL Server
+- PostgreSQL Server
 - Git
 
 ### Installation & Setup
@@ -73,18 +73,18 @@ Expense_Tracking_System/
 
 2. **Create a virtual environment**:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
 3. **Install dependencies**:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements-dev.txt
    ```
 
-4. **Set up MySQL database**:
-   - Create a new MySQL database and run [backend/schema.sql](backend/schema.sql)
-   - Set the connection environment variables: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+4. **Set up PostgreSQL database**:
+   - Create a free project on [Neon](https://neon.tech) and run [backend/schema.sql](backend/schema.sql) in its SQL Editor
+   - `cp .env.example .env` and set `DATABASE_URL` to the Neon connection string
 
 5. **Start the FastAPI backend**:
    ```bash
@@ -94,7 +94,7 @@ Expense_Tracking_System/
 
 6. **Start the Streamlit frontend** (in a new terminal):
    ```bash
-   API_URL=http://localhost:8000 streamlit run frontend/app.py
+   streamlit run frontend/app.py
    ```
    The app will open in your browser at `http://localhost:8501`
 
@@ -121,8 +121,9 @@ Expense_Tracking_System/
 
 ## ☁️ Deployment
 
-- **Backend (Render):** start command `uvicorn backend.server:app --host 0.0.0.0 --port $PORT`. Set the `DB_*` environment variables to point at a hosted MySQL database. `localhost` does not exist on Render.
-- **Frontend (Streamlit Cloud):** main file `frontend/app.py`. Optionally add an `API_URL` secret to point at your backend.
+- **Database (Neon):** run `backend/schema.sql` once.
+- **Backend (Render):** New → Blueprint, pick this repo (uses [render.yaml](render.yaml)), and set `DATABASE_URL` to the Neon connection string.
+- **Frontend (Streamlit Cloud):** main file `frontend/app.py`. Add an `API_URL` secret with your Render backend URL.
 
 ## 🧪 Testing
 

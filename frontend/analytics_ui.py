@@ -3,6 +3,9 @@ from datetime import datetime
 import requests
 import pandas as pd
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Override with an API_URL secret on Streamlit Cloud.

@@ -1,25 +1,19 @@
 import os
-import mysql.connector
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
+from dotenv import load_dotenv
 from backend import logging_setup
 
+load_dotenv()
 logger = logging_setup.setup_logger('database_helper')
 
 
-
 @contextmanager
-def get_db_cursor(commit=False):    
-    # Credentials come from environment variables so the deployed backend can
-    # reach a hosted MySQL instance (localhost does not exist on Render).
-    connection = mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", "3306")),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", ""),
-        database=os.getenv("DB_NAME", "expense_manager")
-    )
-
-    cursor = connection.cursor(dictionary=True)
+def get_db_cursor(commit=False):
+    # DATABASE_URL is the Neon connection string (set in .env locally, env vars on Render).
+    connection = psycopg2.connect(os.environ["DATABASE_URL"])
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     try:
         yield cursor
@@ -28,6 +22,7 @@ def get_db_cursor(commit=False):
     finally:
         cursor.close()
         connection.close()
+
 
 #=======================================================
 def fetch_user_by_username(username):

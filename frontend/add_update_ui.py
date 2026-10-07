@@ -2,6 +2,9 @@ import streamlit as st
 from datetime import datetime
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Override with an API_URL secret on Streamlit Cloud.
 API_URL = os.getenv("API_URL", "https://expense-tracking-system-wx6y.onrender.com")
