@@ -40,8 +40,7 @@ Expense_Tracking_System/
 ├── testing/backend/
 │   └── test_database_helper.py
 ├── screenshots/
-├── requirements.txt
-└── requirements-dev.txt
+└── requirements.txt
 ```
 
 ## Running it locally
@@ -52,7 +51,7 @@ cd Expense_Tracking_System
 
 python -m venv .venv
 source .venv/bin/activate        # windows: .venv\Scripts\activate
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 ```
 
 Create a free Postgres database on [Neon](https://neon.tech), run `backend/schema.sql` in its SQL editor, and then make a `.env` file in the project root:
