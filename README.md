@@ -2,8 +2,6 @@
 
 A small app I built to keep track of my daily expenses and see where the money is actually going each month. You pick a date, enter what you spent, and the analytics tab shows a category-wise breakdown for any date range.
 
-**Live app:** https://expensetrackingsystem-20.streamlit.app/
-
 ![Add / Update expenses](screenshots/add_update.png)
 
 ![Analytics](screenshots/analytics.png)
