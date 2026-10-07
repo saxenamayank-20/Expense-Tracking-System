@@ -11,7 +11,7 @@ logger = logging_setup.setup_logger('database_helper')
 
 @contextmanager
 def get_db_cursor(commit=False):
-    # DATABASE_URL is the Neon connection string (set in .env locally, env vars on Render).
+    # neon db url - picked from .env locally and from render env vars on the server
     connection = psycopg2.connect(os.environ["DATABASE_URL"])
     cursor = connection.cursor(cursor_factory=RealDictCursor)
 

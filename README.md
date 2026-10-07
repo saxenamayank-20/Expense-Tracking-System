@@ -1,147 +1,114 @@
-# 💰 Expense Tracking System
+# Expense Tracking System
 
-## 🔍 Description
+A small app I built to keep track of my daily expenses and see where the money is actually going each month. You pick a date, enter what you spent, and the analytics tab shows a category-wise breakdown for any date range.
 
-A modern, user-friendly expense tracking application built with **FastAPI** for the backend and **Streamlit** for the frontend. Track your expenses, analyze spending patterns, and manage your finances effortlessly!
+**Live app:** STREAMLIT_APP_URL
 
-## ⚙️ Tech Stack
+![Add / Update expenses](screenshots/add_update.png)
 
-- **Python** 3.12
-- **Streamlit** 1.45 + **pandas** - frontend UI and charts (deployed on Streamlit Community Cloud)
-- **FastAPI** 0.115 + **Pydantic** 2 + **Uvicorn/Gunicorn** - REST API backend (deployed on Render)
-- **PostgreSQL on Neon** via `psycopg2` - data storage
-- **Requests** - frontend-to-backend HTTP calls
-- **pytest** - tests
+![Analytics](screenshots/analytics.png)
 
-## 🚀 Features
+## Tech stack
 
-- 📊 **Expense Management**: Add, update, and delete expenses with ease
-- 📈 **Analytics Dashboard**: Visualize spending patterns with interactive charts
-- 🗂️ **Category-based Tracking**: Organize expenses by categories
-- 📅 **Date Range Filtering**: Analyze expenses over specific time periods
-- 💾 **PostgreSQL Database**: Robust data storage with persistent records
-- 🚀 **FastAPI Backend**: High-performance REST API
-- 🎨 **Streamlit Frontend**: Beautiful, responsive web interface
+- **Frontend:** Streamlit, pandas (hosted on Streamlit Community Cloud)
+- **Backend:** FastAPI, Pydantic, Uvicorn (hosted on Render)
+- **Database:** PostgreSQL on Neon, using psycopg2
+- **Testing:** pytest
+- Python 3.12
 
-## 🧠 Learnings
+The Streamlit app doesn't talk to the database directly. It calls the FastAPI backend, and the backend does all the DB work.
 
-*Key learnings from this project:*
-- Building robust REST APIs with FastAPI
-- Database design and optimization with PostgreSQL
-- Frontend development with Streamlit
-- User authentication and security best practices
-- Data visualization techniques
-- Testing strategies for backend applications
+## Features
 
-## ▶️ How to Run
+- Add or edit up to 5 expenses for any date (amount, category, notes)
+- Categories: Rent, Food, Shopping, Entertainment, Other
+- Analytics for a date range - total per category and its share in %, with a bar chart and a table
 
-### Project Structure
+## Project structure
 
 ```
 Expense_Tracking_System/
 ├── backend/
-│   ├── __init__.py
-│   ├── database_helper.py    # Database operations
-│   ├── logging_setup.py      # Logging configuration
-│   └── server.py             # FastAPI server
+│   ├── server.py            # FastAPI routes
+│   ├── database_helper.py   # all the SQL queries
+│   ├── logging_setup.py
+│   └── schema.sql           # tables for postgres
 ├── frontend/
-│   ├── app.py                # Main Streamlit app
-│   ├── add_update_ui.py      # Add/Update expense interface
-│   └── analytics_ui.py       # Analytics dashboard
-├── testing/
-│   ├── __init__.py
-│   └── backend/
-│       ├── __init__.py
-│       └── test_database_helper.py
-├── requirements.txt          # Python dependencies
-└── README.md
+│   ├── app.py               # main streamlit page + styling
+│   ├── add_update_ui.py     # Add/Update tab
+│   └── analytics_ui.py      # Analytics tab
+├── testing/backend/
+│   └── test_database_helper.py
+├── screenshots/
+├── requirements.txt
+└── requirements-dev.txt
 ```
 
-### Prerequisites
+## Running it locally
 
-- Python 3.8 or higher
-- PostgreSQL Server
-- Git
+```bash
+git clone https://github.com/saxenamayank-20/Expense_Tracking_System.git
+cd Expense_Tracking_System
 
-### Installation & Setup
+python -m venv .venv
+source .venv/bin/activate        # windows: .venv\Scripts\activate
+pip install -r requirements-dev.txt
+```
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/saxenamayank-20/Expense_Tracking_System.git
-   cd Expense_Tracking_System
-   ```
+Create a free Postgres database on [Neon](https://neon.tech), run `backend/schema.sql` in its SQL editor, and then make a `.env` file in the project root:
 
-2. **Create a virtual environment**:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+```
+DATABASE_URL=postgresql://<user>:<password>@<host>.neon.tech/neondb?sslmode=require
+API_URL=http://localhost:8000
+```
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements-dev.txt
-   ```
+Start the backend:
 
-4. **Set up PostgreSQL database**:
-   - Create a free project on [Neon](https://neon.tech) and run [backend/schema.sql](backend/schema.sql) in its SQL Editor
-   - Create a `.env` file with `DATABASE_URL=<Neon connection string>`
+```bash
+uvicorn backend.server:app --reload
+```
 
-5. **Start the FastAPI backend**:
-   ```bash
-   uvicorn backend.server:app --reload
-   ```
-   The API will be available at `http://localhost:8000`
+And in another terminal, the frontend:
 
-6. **Start the Streamlit frontend** (in a new terminal):
-   ```bash
-   streamlit run frontend/app.py
-   ```
-   The app will open in your browser at `http://localhost:8501`
+```bash
+streamlit run frontend/app.py
+```
 
-## 📖 Usage Guide
+## API
 
-### Adding Expenses
-- Navigate to the "Add/Update" tab
-- Enter expense details: amount, category, notes, and date
-- Click "Add Expense" to save
+| Method | Route | What it does |
+|---|---|---|
+| GET | `/` | health check |
+| GET | `/expenses/{date}` | expenses for a date |
+| POST | `/expenses/{date}` | replace the expenses for a date |
+| POST | `/analytics/` | category totals and % for a date range |
+| POST | `/login` | check username and password |
 
-### Viewing Analytics
-- Switch to the "Analytics" tab
-- View spending summaries and charts
-- Filter by date range or category
+FastAPI's interactive docs are at `/docs` once the server is running.
 
-### API Reference
+## Tests
 
-#### Endpoints:
-- `GET /` - Health check
-- `GET /expenses/{date}` - Get expenses for a date
-- `POST /expenses/{date}` - Replace the expenses for a date
-- `POST /analytics/` - Category totals and percentages for a date range
-- `POST /login` - Check a username and password
-
-## ☁️ Deployment
-
-- **Database (Neon):** run `backend/schema.sql` once.
-- **Backend (Render):** New → Blueprint, pick this repo (uses [render.yaml](render.yaml)), and set `DATABASE_URL` to the Neon connection string.
-- **Frontend (Streamlit Cloud):** main file `frontend/app.py`. Add an `API_URL` secret with your Render backend URL.
-
-## 🧪 Testing
-
-Run the test suite:
 ```bash
 python -m pytest testing/
 ```
 
-## 🤝 Contributing
+The tests run against the database in `DATABASE_URL`, and they expect the sample row that `schema.sql` inserts.
 
-Contributions are welcome! Please follow these steps:
+## Deployment
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- **Database:** Neon. Run `schema.sql` once.
+- **Backend:** Render web service
+  - build: `pip install -r requirements.txt`
+  - start: `uvicorn backend.server:app --host 0.0.0.0 --port $PORT`
+  - env vars: `DATABASE_URL`, `PYTHON_VERSION=3.12.3`
+- **Frontend:** Streamlit Cloud with `frontend/app.py` as the main file. It points to the Render backend by default, and you can change that with an `API_URL` secret.
 
----
+The backend is on Render's free plan, so it sleeps when nobody's using it. The first load after a while can take up to a minute.
 
-⭐ **Star this repo** if you find it helpful!
+## What I learned
+
+- Building a REST API with FastAPI and validating requests with Pydantic
+- Splitting an app into a separate frontend and backend, and connecting them over HTTP
+- Moving from a local MySQL setup to a hosted Postgres database (Neon)
+- Deploying the backend and frontend on two different platforms and keeping secrets out of the repo
+- Writing basic tests with pytest

@@ -2,7 +2,7 @@ import logging
 
 
 def setup_logger(name, level=logging.DEBUG):
-    # Log to stdout so messages show up in Render's log viewer.
+    # logging to console so the logs show up on render
     logger = logging.getLogger(name)
     logger.setLevel(level)
     if not logger.handlers:

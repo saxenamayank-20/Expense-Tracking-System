@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# Override with an API_URL secret on Streamlit Cloud.
+# backend url
 API_URL = os.getenv("API_URL", "https://expense-tracking-system-gj39.onrender.com")
-# Render free tier can take ~60s to wake up from sleep.
+# render free plan goes to sleep, so first call can be slow
 TIMEOUT = 90
 
 
