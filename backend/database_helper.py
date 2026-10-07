@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from contextlib import contextmanager
 from backend import logging_setup
@@ -8,20 +9,25 @@ logger = logging_setup.setup_logger('database_helper')
 
 @contextmanager
 def get_db_cursor(commit=False):    
+    # Credentials come from environment variables so the deployed backend can
+    # reach a hosted MySQL instance (localhost does not exist on Render).
     connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Password",
-        database="expense_manager"
+        host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", "3306")),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", ""),
+        database=os.getenv("DB_NAME", "expense_manager")
     )
 
     cursor = connection.cursor(dictionary=True)
 
-    yield cursor
-    if commit:
-        connection.commit()
-    cursor.close()
-    connection.close()
+    try:
+        yield cursor
+        if commit:
+            connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
 
 #=======================================================
 def fetch_user_by_username(username):

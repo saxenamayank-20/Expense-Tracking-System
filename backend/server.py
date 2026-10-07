@@ -17,10 +17,11 @@ class DateRange(BaseModel):
     start_date: date
     end_date: date
 
-# from fastapi import FastAPI, HTTPException
-# from database_helper import db_get_user
 
-app = FastAPI()
+@app.get("/")
+def health():
+    return {"status": "ok"}
+
 #======================================================================#
 @app.post("/login")
 def login(username: str, password: str):

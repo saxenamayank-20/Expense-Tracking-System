@@ -5,7 +5,10 @@ import pandas as pd
 import os
 
 
-API_URL = "https://expense-tracking-system-wx6y.onrender.com"
+# Override with an API_URL secret on Streamlit Cloud.
+API_URL = os.getenv("API_URL", "https://expense-tracking-system-wx6y.onrender.com")
+# Render free tier can take ~60s to wake up from sleep.
+TIMEOUT = 90
 
 
 def analytics_tab():
@@ -22,9 +25,18 @@ def analytics_tab():
             "end_date": end_date.strftime("%Y-%m-%d")
         }
 
-        response = requests.post(f"{API_URL}/analytics/", json=payload)
+        try:
+            response = requests.post(f"{API_URL}/analytics/", json=payload, timeout=TIMEOUT)
+        except requests.RequestException:
+            st.error("Could not reach the backend. Please try again in a minute.")
+            return
+        if response.status_code != 200:
+            st.error("Failed to retrieve analytics from the backend.")
+            return
         response = response.json()
-
+        if not response:
+            st.info("No expenses found for the selected date range.")
+            return
 
         data = {
             "Category": list(response.keys()),

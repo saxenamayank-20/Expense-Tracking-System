@@ -6,10 +6,12 @@ A modern, user-friendly expense tracking application built with **FastAPI** for 
 
 ## ⚙️ Tech Stack
 
-- **Python** (3.8+)
-- **FastAPI** (0.120.0) - High-performance backend REST API
-- **Streamlit** (1.51.0) - Beautiful, responsive web interface
-- **MySQL** - Robust data storage with persistent records
+- **Python** 3.12
+- **Streamlit** 1.45 + **pandas** - frontend UI and charts (deployed on Streamlit Community Cloud)
+- **FastAPI** 0.115 + **Pydantic** 2 + **Uvicorn/Gunicorn** - REST API backend (deployed on Render)
+- **MySQL** via `mysql-connector-python` - data storage
+- **Requests** - frontend-to-backend HTTP calls
+- **pytest** - tests
 
 ## 🚀 Features
 
@@ -65,8 +67,8 @@ Expense_Tracking_System/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/saxenamayank-20/Expense-Tracking-System.git
-   cd Expense-Tracking-System
+   git clone https://github.com/saxenamayank-20/Expense_Tracking_System.git
+   cd Expense_Tracking_System
    ```
 
 2. **Create a virtual environment**:
@@ -81,8 +83,8 @@ Expense_Tracking_System/
    ```
 
 4. **Set up MySQL database**:
-   - Create a new MySQL database
-   - Update database connection settings in [backend/database_helper.py](backend/database_helper.py)
+   - Create a new MySQL database and run [backend/schema.sql](backend/schema.sql)
+   - Set the connection environment variables: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
 
 5. **Start the FastAPI backend**:
    ```bash
@@ -92,7 +94,7 @@ Expense_Tracking_System/
 
 6. **Start the Streamlit frontend** (in a new terminal):
    ```bash
-   streamlit run frontend/app.py
+   API_URL=http://localhost:8000 streamlit run frontend/app.py
    ```
    The app will open in your browser at `http://localhost:8501`
 
@@ -111,11 +113,16 @@ Expense_Tracking_System/
 ### API Reference
 
 #### Endpoints:
-- `GET /expenses` - Retrieve all expenses
-- `POST /expenses` - Add a new expense
-- `PUT /expenses/{id}` - Update an expense
-- `DELETE /expenses/{id}` - Delete an expense
-- `GET /analytics` - Get spending analytics
+- `GET /` - Health check
+- `GET /expenses/{date}` - Get expenses for a date
+- `POST /expenses/{date}` - Replace the expenses for a date
+- `POST /analytics/` - Category totals and percentages for a date range
+- `POST /login` - Check a username and password
+
+## ☁️ Deployment
+
+- **Backend (Render):** start command `uvicorn backend.server:app --host 0.0.0.0 --port $PORT`. Set the `DB_*` environment variables to point at a hosted MySQL database. `localhost` does not exist on Render.
+- **Frontend (Streamlit Cloud):** main file `frontend/app.py`. Optionally add an `API_URL` secret to point at your backend.
 
 ## 🧪 Testing
 

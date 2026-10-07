@@ -1,18 +1,24 @@
 import streamlit as st
 from datetime import datetime
 import requests
+import os
 
-API_URL = "https://expense-tracking-system-wx6y.onrender.com"
+# Override with an API_URL secret on Streamlit Cloud.
+API_URL = os.getenv("API_URL", "https://expense-tracking-system-wx6y.onrender.com")
+# Render free tier can take ~60s to wake up from sleep.
+TIMEOUT = 90
 
 
 def add_update_tab():
     selected_date = st.date_input("Enter Date", datetime(2025, 1, 1), label_visibility="collapsed")
-    response = requests.get(f"{API_URL}/expenses/{selected_date}")
-    if response.status_code == 200:
+    try:
+        response = requests.get(f"{API_URL}/expenses/{selected_date}", timeout=TIMEOUT)
+    except requests.RequestException:
+        response = None
+    if response is not None and response.status_code == 200:
         existing_expenses = response.json()
-        # st.write(existing_expenses)
     else:
-        st.error("Failed to retrieve expenses")
+        st.error("Failed to retrieve expenses. The backend may be waking up or its database is unreachable.")
         existing_expenses = []
 
     categories = ["Rent", "Food", "Shopping", "Entertainment", "Other"]
@@ -31,6 +37,8 @@ def add_update_tab():
             if i < len(existing_expenses):
                 amount = existing_expenses[i]['amount']
                 category = existing_expenses[i]["category"]
+                if category not in categories:
+                    category = "Other"
                 notes = existing_expenses[i]["notes"]
             else:
                 amount = 0.0
@@ -57,8 +65,12 @@ def add_update_tab():
         if submit_button:
             filtered_expenses = [expense for expense in expenses if expense['amount'] > 0]
 
-            response = requests.post(f"{API_URL}/expenses/{selected_date}", json=filtered_expenses)
-            if response.status_code == 200:
+            try:
+                response = requests.post(f"{API_URL}/expenses/{selected_date}", json=filtered_expenses,
+                                         timeout=TIMEOUT)
+            except requests.RequestException:
+                response = None
+            if response is not None and response.status_code == 200:
                 st.success("Expenses updated successfully!")
             else:
                 st.error("Failed to update expenses.")
