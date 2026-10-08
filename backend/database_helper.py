@@ -1,7 +1,7 @@
 import os
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import mysql.connector
 from contextlib import contextmanager
+from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
 from backend import logging_setup
 
@@ -11,9 +11,16 @@ logger = logging_setup.setup_logger('database_helper')
 
 @contextmanager
 def get_db_cursor(commit=False):
-    # neon db url - picked from .env locally and from render env vars on the server
-    connection = psycopg2.connect(os.environ["DATABASE_URL"])
-    cursor = connection.cursor(cursor_factory=RealDictCursor)
+    # clever cloud mysql url - picked from .env locally and from render env vars on the server
+    url = urlparse(os.environ["DATABASE_URL"])
+    connection = mysql.connector.connect(
+        host=url.hostname,
+        port=url.port or 3306,
+        user=unquote(url.username),
+        password=unquote(url.password),
+        database=url.path.lstrip("/")
+    )
+    cursor = connection.cursor(dictionary=True)
 
     try:
         yield cursor

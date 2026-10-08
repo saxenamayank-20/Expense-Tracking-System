@@ -20,22 +20,22 @@ I wanted a quick way to note down what I spend each day without keeping a spread
 
 - **Frontend:** Streamlit 1.45, pandas 2.2
 - **Backend:** FastAPI 0.115, Pydantic 2, Uvicorn
-- **Database:** PostgreSQL on Neon (psycopg2)
+- **Database:** MySQL 8 on Clever Cloud (mysql-connector-python)
 - **Tests:** pytest
 - Python 3.12
 - Hosted on Streamlit Community Cloud (frontend) and Render (backend)
 
 ## How it works
 
-The Streamlit app never touches the database. It sends requests to the FastAPI backend, the backend runs the SQL on Neon, and sends the result back as JSON.
+The Streamlit app never touches the database. It sends requests to the FastAPI backend, the backend runs the SQL on MySQL, and sends the result back as JSON.
 
 ```text
-Streamlit  --HTTP-->  FastAPI  --SQL-->  Postgres (Neon)
+Streamlit  --HTTP-->  FastAPI  --SQL-->  MySQL (Clever Cloud)
 ```
 
 ## Run it locally
 
-You'll need Python 3.12 and a free Postgres database on [Neon](https://neon.tech). Run `backend/schema.sql` once in Neon's SQL editor to create the tables.
+You'll need Python 3.12 and a MySQL database. I use the free MySQL add-on on [Clever Cloud](https://www.clever-cloud.com), but a local MySQL works too. Run `backend/schema.sql` on it once to create the tables.
 
 ```bash
 git clone https://github.com/saxenamayank-20/Expense_Tracking_System.git
@@ -50,7 +50,7 @@ cp .env.example .env
 
 Fill in `.env`:
 
-- `DATABASE_URL` - your Neon connection string
+- `DATABASE_URL` - your MySQL connection url (`mysql://user:password@host:3306/dbname`)
 - `API_URL` - backend url for the frontend, `http://localhost:8000` when running locally
 
 Start the backend:
@@ -95,7 +95,7 @@ The tests use the database in `DATABASE_URL` and expect the sample row that `sch
 
 ## What I learned
 
-- The first deploy broke because the backend was pointing to MySQL on localhost, which doesn't exist on a server. Moving to a hosted Postgres on Neon fixed it.
+- The first deploy broke because the backend was pointing to MySQL on localhost, which doesn't exist on a server. Moving the database to a hosted MySQL on Clever Cloud fixed it.
 - Keeping the db credentials in env vars instead of the code made it easy to run the same code locally and on Render.
 - Splitting the app into a FastAPI backend and a Streamlit frontend meant deploying and connecting two services.
 
@@ -104,3 +104,4 @@ The tests use the database in `DATABASE_URL` and expect the sample row that `sch
 - The backend is on Render's free plan, so it sleeps when idle. The first load after a while can take up to a minute.
 - It's a single shared expense list, there are no user accounts yet. The `/login` route exists but the app doesn't use it.
 - Max 5 expenses per day in the form.
+- The free Clever Cloud MySQL plan is tiny (around 10 MB), which is fine for personal use but not much more.
