@@ -27,10 +27,13 @@ I wanted a quick way to note down what I spend each day without keeping a spread
 
 ## How it works
 
-The Streamlit app never touches the database. It sends requests to the FastAPI backend, the backend runs the SQL on MySQL, and sends the result back as JSON.
+The app is split into three parts, each hosted separately. The Streamlit frontend only knows the backend url and never talks to the database directly. The FastAPI backend on Render is the only part that has the database credentials. It runs the SQL on MySQL (Clever Cloud) and sends the results back as JSON, and Streamlit turns them into the form, table and chart.
 
-```text
-Streamlit  --HTTP-->  FastAPI  --SQL-->  MySQL (Clever Cloud)
+```mermaid
+flowchart TD
+    U([You - browser]) <-->|form, table, chart| S["Streamlit app<br/>(Streamlit Cloud)"]
+    S <-->|"HTTP requests / JSON"| F["FastAPI backend<br/>(Render)"]
+    F <-->|"SQL queries / rows"| D[("MySQL database<br/>(Clever Cloud)")]
 ```
 
 ## Run it locally
