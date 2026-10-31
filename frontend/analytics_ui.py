@@ -9,7 +9,7 @@ load_dotenv()
 
 
 # backend url
-API_URL = os.getenv("API_URL", "https://expense-tracking-system-gj39.onrender.com")
+API_URL = os.getenv("API_URL", "https://expense-tracking-system-1-t074.onrender.com")
 # render free plan goes to sleep, so first call can be slow
 TIMEOUT = 90
 
