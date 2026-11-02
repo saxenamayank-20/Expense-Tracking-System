@@ -88,7 +88,8 @@ st.markdown("""
     font-size: 18px;
     font-weight: 500;
     margin-top: 12px;
-    color: #cbd5e1;
+    color: inherit;
+    opacity: 0.8;
     letter-spacing: 1px;
     animation: fadeInUp 1.2s ease;
 }
